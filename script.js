@@ -1,5 +1,3 @@
-console.log("Rock Paper Scissors");
-
 playGame();
 
 /*
@@ -29,49 +27,33 @@ function getComputerChoice(){
     return choice;
 }
 
-/*
-Human choice algorithm
-Declare "choice" variable and store user input inside 
-If "choice" variable matches "rock" return "rock"
-If "choice" variable matches "paper" return "paper"
-If "choice" variable matches "scissors" return "scissors"
-*/
-function getHumanChoice(){
-    let choice = prompt("Enter rock, paper, or scissors:");
-    choice = choice.toLowerCase();
-
-    if (choice === "rock"){
-        return "rock";
-    } else if (choice === "paper"){
-        return "paper";
-    } else if (choice === "scissors"){
-        return "scissors";
-    }
-}
-
-/*
-Gameplay algorithm
-Play five rounds of Rock Paper Scissors and record scores in respective score variables
-Determine and display a winner or tie to the console depending on recorded score
-*/
 function playGame(){
+    let score = document.querySelector(".score");
     let humanScore = 0;
     let computerScore = 0;
+    score.textContent = `Human: ${humanScore} | Computer: ${computerScore}`;
 
-    playRound(getHumanChoice(), getComputerChoice());
-    playRound(getHumanChoice(), getComputerChoice());
-    playRound(getHumanChoice(), getComputerChoice());
-    playRound(getHumanChoice(), getComputerChoice());
-    playRound(getHumanChoice(), getComputerChoice());
+    let buttons = document.querySelector(".buttons");
 
-    if (humanScore > computerScore){
-        console.log(`Human: ${humanScore}, Computer: ${computerScore}, Human wins`);
-    } else if (humanScore < computerScore){
-        console.log(`Human: ${humanScore}, Computer: ${computerScore}, Computer wins`);
-    } else {
-        console.log(`Human: ${humanScore}, Computer: ${computerScore}, Tie`);
-    }
+    let rock = document.createElement("button");
+    rock.innerText = "Rock";
+    rock.addEventListener("click", () => playRound("rock", getComputerChoice()));
+    buttons.appendChild(rock);
+    
+    let paper = document.createElement("button");
+    paper.innerText = "Paper";
+    paper.addEventListener("click", () => playRound("paper", getComputerChoice()));
+    buttons.appendChild(paper);
+    
+    let scissors = document.createElement("button");
+    scissors.innerText = "Scissors";
+    scissors.addEventListener("click", () => playRound("scissors", getComputerChoice()));
+    buttons.appendChild(scissors);
 
+    let console = document.querySelector(".console");
+    let result = document.createElement("p");
+    let final = document.createElement("p");
+    
     /*
     Play round algorithm
     If user chooses rock:
@@ -90,34 +72,61 @@ function playGame(){
     function playRound(humanChoice, computerChoice){
         if (humanChoice === "rock"){
             if (computerChoice === "rock"){
-                console.log("Human: rock, Computer: rock, Result: Tie");
+                result.textContent = "Human: rock, Computer: rock, Result: Tie";
+                console.appendChild(result);
             } else if (computerChoice === "paper"){
-                console.log("Human: rock, Computer: paper, Result: Computer win");
+                result.textContent = "Human: rock, Computer: paper, Result: Computer win";
+                console.appendChild(result);
                 computerScore += 1;
             } else if (computerChoice === "scissors"){
-                console.log("Human: rock, Computer: scissors, Result: Human win");
+                result.textContent = "Human: rock, Computer: scissors, Result: Human win";
+                console.appendChild(result);
                 humanScore += 1;
             }
         } else if (humanChoice === "paper"){
             if (computerChoice === "rock"){
-                console.log("Human: paper, Computer: rock, Result: Human win");
+                result.textContent = "Human: paper, Computer: rock, Result: Human win";
+                console.appendChild(result);
                 humanScore += 1;
             } else if (computerChoice === "paper"){
-                console.log("Human: paper, Computer: paper, Result: Tie");
+                result.textContent = "Human: paper, Computer: paper, Result: Tie";
+                console.appendChild(result);
             } else if (computerChoice === "scissors"){
-                console.log("Human: paper, Computer: scissors, Result: Computer win");
+                result.textContent = "Human: paper, Computer: scissors, Result: Computer win";
+                console.appendChild(result);
                 computerScore += 1;
             }
         } else if (humanChoice === "scissors"){
             if (computerChoice === "rock"){
-                console.log("Human: scissors, Computer: rock, Result: Computer win");
+                result.textContent = "Human: scissors, Computer: rock, Result: Computer win";
+                console.appendChild(result);
                 computerScore += 1;
             } else if (computerChoice === "paper"){
-                console.log("Human: scissors, Computer: paper, Result: Human win");
+                result.textContent = "Human: scissors, Computer: paper, Result: Human win";
+                console.appendChild(result);
                 humanScore += 1;
             } else if (computerChoice === "scissors"){
-                console.log("Human: scissors, Computer: scissors, Result: Tie");
+                result.textContent = "Human: scissors, Computer: scissors, Result: Tie";
+                console.appendChild(result);
             }
+        }
+        
+        score.textContent = `Human: ${humanScore} | Computer: ${computerScore}`;
+
+        if (humanScore == 5){
+            final.textContent = "Max score reached. Human wins!";
+            console.appendChild(final);
+            humanScore = 0;
+            computerScore = 0;
+            score.textContent = `Human: ${humanScore} | Computer: ${computerScore}`;
+        } else if (computerScore == 5){
+            final.textContent = "Max score reached. Computer wins!";
+            console.appendChild(final);
+            humanScore = 0;
+            computerScore = 0;
+            score.textContent = `Human: ${humanScore} | Computer: ${computerScore}`;
+        } else {
+            final.remove();
         }
     }
 }
